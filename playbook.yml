@@ -8,6 +8,9 @@
   hosts: 10.0.0.72
   remote_user: azureuser
   become: yes
+  vars:
+    nagios_log_server: "10.0.0.71"
+    nagios_log_port: "514"
 
 
   # This section is used for define all tasks, which we want to do.
