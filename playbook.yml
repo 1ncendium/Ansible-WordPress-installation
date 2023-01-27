@@ -18,3 +18,27 @@
     - php
     - mysql
     - wordpress
+    
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+        
+    - name: Update apt and install rsyslog
+      apt:
+        pkg:
+          - rsyslog
+        state: latest
+        update_cache: true
+
+    - name: Configure rsyslog to send logs to syslog server
+      become: yes
+      lineinfile:
+        dest: /etc/rsyslog.conf
+        regexp: '\Z'
+        line: "*.* @@{{ nagios_log_server }}:{{ nagios_log_port }}"
+
+    - name: Restart rsyslog service
+      service: name=rsyslog state=restarted
